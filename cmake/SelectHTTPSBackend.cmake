@@ -108,7 +108,7 @@ if(USE_HTTPS)
 		endif()
 
 		if(CERT_LOCATION)
-			if(NOT EXISTS ${CERT_LOCATION})
+			if(NOT CMAKE_CROSSCOMPILING AND NOT EXISTS ${CERT_LOCATION})
 				message(FATAL_ERROR "cannot use CERT_LOCATION=${CERT_LOCATION} as it doesn't exist")
 			endif()
 			add_definitions(-DGIT_DEFAULT_CERT_LOCATION="${CERT_LOCATION}")
