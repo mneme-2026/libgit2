@@ -998,6 +998,15 @@ done:
 	return error;
 }
 
+/*
+ * git names the signature header after the object format: "gpgsig" in a
+ * SHA1 repository, "gpgsig-sha256" in a SHA256 one.
+ */
+static const char *default_signature_field(git_repository *repo)
+{
+	return repo->oid_type == GIT_OID_SHA256 ? "gpgsig-sha256" : "gpgsig";
+}
+
 int git_commit__extract_signature(
 	git_str *signature,
 	git_str *signed_data,
@@ -1015,7 +1024,7 @@ int git_commit__extract_signature(
 	git_str_clear(signed_data);
 
 	if (!field)
-		field = "gpgsig";
+		field = default_signature_field(repo);
 
 	if ((error = git_repository_odb__weakptr(&odb, repo)) < 0)
 		return error;
@@ -1174,7 +1183,7 @@ int git_commit_create_with_signature(
 	GIT_ASSERT_ARG(commit_content);
 
 	if (!signature_field)
-		signature_field = "gpgsig";
+		signature_field = default_signature_field(repo);
 
 	commit_content_len = strlen(commit_content);;
 
