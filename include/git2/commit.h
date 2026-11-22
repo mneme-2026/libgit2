@@ -315,7 +315,8 @@ GIT_EXTERN(int) git_commit_header_field(
  * @param repo the repository in which the commit exists
  * @param commit_id the commit from which to extract the data
  * @param field the name of the header field containing the signature
- * block; pass `NULL` to extract the default 'gpgsig'
+ * block; pass `NULL` to extract the default: 'gpgsig', or
+ * 'gpgsig-sha256' in a SHA256 repository
  * @return 0 on success, GIT_ENOTFOUND if the id is not for a commit
  * or the commit does not have a signature.
  */
@@ -826,7 +827,8 @@ GIT_EXTERN(int) git_commit_create_buffer(
  * @param signature the signature to add to the commit. Leave `NULL`
  * to create a commit without adding a signature field.
  * @param signature_field which header field should contain this
- * signature. Leave `NULL` for the default of "gpgsig"
+ * signature. Leave `NULL` for the default of "gpgsig", or
+ * "gpgsig-sha256" in a SHA256 repository
  * @return 0 or an error code
  */
 GIT_EXTERN(int) git_commit_create_with_signature(
